@@ -1,8 +1,11 @@
 import {
   Body,
+  ConsoleLogger,
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -26,12 +29,29 @@ export class UsersController {
 
   @Post()
   sendUser(@Body() data: any): Promise<User> {
-    return this.userService.sendUser(data);
+    return this.userService.sendUser(data)
   }
 
+// @Post()
+// sendUser(@Body() data: any): Promise<User> {
+//   return this.userService.checkRegUser(data.login).then((queryRes) => {
+//     console.log('data reg ', queryRes);
+//     if (queryRes.length === 0) {
+//       return this.userService.sendUser(data);
+//     } else {
+//       console.log('err - user is exists')
+//       throw new HttpException({
+//         status: HttpStatus.CONFLICT,
+//         errorText: 'Пользователь уже зарегистрирован'
+//       }, HttpStatus.CONFLICT);
+//     }
+//   });
+
+// }
+
   @Put(':id')
-  updateUsers(@Param('id') id: string): Promise<User> {
-    return this.userService.updateUsers(id);
+  updateUsers(@Param('id') id: string, @Body() data: any): Promise<User> {
+    return this.userService.updateUsers(id, data);
   }
 
   @Delete()

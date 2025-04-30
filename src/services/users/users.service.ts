@@ -26,12 +26,10 @@ export class UsersService {
     return userData.save();
   }
 
-  async updateUsers(id: string): Promise<User> {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      id,
-      {},
-      { new: true },
-    );
+  async updateUsers(id: string, body): Promise<User> {
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, body, {
+      new: true,
+    });
     if (!updatedUser) {
       throw new Error(`User with id ${id} not found`);
     }
@@ -48,5 +46,9 @@ export class UsersService {
       throw new Error(`User with id ${id} not found`);
     }
     return deletedUser;
+  }
+
+  async checkRegUser(): Promise<void> {
+    
   }
 }
