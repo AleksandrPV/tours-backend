@@ -21,7 +21,7 @@ export class UsersService {
     return user;
   }
 
-  async sendUser(data): Promise<User> {
+  async sendUser(data: User): Promise<User> {
     const userData = new this.userModel(data);
     return userData.save();
   }
@@ -48,7 +48,7 @@ export class UsersService {
     return deletedUser;
   }
 
-  async checkRegUser(): Promise<void> {
+  async checkRegUser(login): Promise<void> {
     
   }
 }
