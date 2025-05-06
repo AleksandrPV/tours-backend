@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model } from 'mongoose';
-import { User, UserDocument } from 'src/shemas/user';
+import { UserDto } from '../../dto/userDto';
+import { User, UserDocument } from '../../shemas/user';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private jwtService: JwtService
+  ) {
     console.log('UsersService initialized');
   }
 
@@ -51,4 +56,17 @@ export class UsersService {
   async checkRegUser(login): Promise<void> {
     
   }
+
+  async checkAuthUser(login: string, password: string): Promise<User[] | null> {
+    const userArr = await this.userModel.find({ login, password });
+    return userArr.length === 0 ? null : userArr;
+  }
+
+  async login(user: UserDto) {
+    const payload = { login: user.login, password: user.password}
+    return {
+      access_token: this.jwtService.sign(payload),
+    }
+  }
+
 }

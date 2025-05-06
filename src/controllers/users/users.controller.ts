@@ -9,9 +9,11 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from 'src/services/users/users.service';
-import { User } from 'src/shemas/user';
+import { User, UserDocument } from 'src/shemas/user';
 
 @Controller('users')
 export class UsersController {
@@ -48,6 +50,12 @@ export class UsersController {
         }, HttpStatus.CONFLICT);
       }
     });
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post(':login')
+  authUser(@Body() data: UserDocument, @Param('login') login): any {
+    return this.userService.login(data);
   }
 
   @Put(':id')
