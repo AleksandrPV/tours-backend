@@ -18,5 +18,6 @@ import { jwtConstants } from '../../static/private/constants'
   ],
   controllers: [UsersController],
   providers: [UsersService, AuthService],
+  exports: [UsersService],
 })
 export class UsersModule {}

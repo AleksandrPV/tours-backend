@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UsersService } from 'src/services/users/users.service';
+import { UsersService } from '../../services/users/users.service';
 import { User, UserDocument } from 'src/shemas/user';
 
 @Controller('users')
