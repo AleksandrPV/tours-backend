@@ -14,6 +14,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from '../../services/users/users.service';
 import { User, UserDocument } from 'src/shemas/user';
+import { UserDto } from 'src/dto/userDto';
+import { JwtAuthGuardService } from 'src/services/authentication/jwt-auth.guard/jwt-auth.guard.service';
 
 @Controller('users')
 export class UsersController {
@@ -29,18 +31,12 @@ export class UsersController {
     return this.userService.getUserById(id);
   }
 
-  // @Post()
-  // sendUser(@Body() data: any): Promise<User> {
-  //   return this.userService.sendUser(data)
-  // }
-
+  //@UseGuards(JwtAuthGuardService)
   @Post()
-  sendUser(@Body() data: User): Promise<User> {
-    return this.userService.checkRegUser(data.login).then((queryRes: any) => {
+  sendUser(@Body() data: UserDto): Promise<User> {
+    return this.userService.checkRegUser(data.login).then((queryRes) => {
       console.log('data reg ', queryRes);
-      console.log('user ', data);
       if (queryRes === undefined) {
-        console.log('!!!!data!!!!', data);
         return this.userService.sendUser(data);
       } else {
         console.log('err - user is exists')
@@ -52,11 +48,33 @@ export class UsersController {
     });
   }
 
-  @UseGuards(AuthGuard('local'))
   @Post(':login')
-  authUser(@Body() data: UserDocument, @Param('login') login): any {
-    return this.userService.login(data);
+    authUser(@Body() data: UserDto, @Param('login') login): any {
+      return this.userService.login(data);
   }
+
+  // @UseGuards(AuthGuard('local'))
+//   @Post(':login')
+//   authUser(@Body() data: UserDto, @Param('login') login): Promise<User | boolean>{
+//     return this.userService.checkAuthUser(data.login, data.password).then((queryRes) => {
+//       if (queryRes?.length !== 0) {
+//         return Promise.resolve(true);
+//       } else {
+//         console.log('err - user is not exists')
+//         throw new HttpException({
+//           status: HttpStatus.CONFLICT,
+//           errorText: 'Пользователь не найден в базе данных'
+//         }, HttpStatus.CONFLICT);
+
+//       }
+//   })
+// }
+
+  // @UseGuards(AuthGuard('local'))
+  // @Post(':login')
+  // authUser(@Body() data: UserDocument, @Param('login') login): any {
+  //   return this.userService.login(data);
+  // }
 
   @Put(':id')
   updateUsers(@Param('id') id: string, @Body() data: any): Promise<User> {
