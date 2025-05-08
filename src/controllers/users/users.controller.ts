@@ -31,12 +31,11 @@ export class UsersController {
     return this.userService.getUserById(id);
   }
 
-  //@UseGuards(JwtAuthGuardService)
   @Post()
   sendUser(@Body() data: UserDto): Promise<User> {
-    return this.userService.checkRegUser(data.login).then((queryRes) => {
+    return this.userService.checkRegUser(data.login).then((queryRes: any) => {
       console.log('data reg ', queryRes);
-      if (queryRes === undefined) {
+      if (queryRes?.length === 0) {
         return this.userService.sendUser(data);
       } else {
         console.log('err - user is exists')
@@ -47,34 +46,11 @@ export class UsersController {
       }
     });
   }
-
+  //@UseGuards(JwtAuthGuardService)
   @Post(':login')
     authUser(@Body() data: UserDto, @Param('login') login): any {
       return this.userService.login(data);
   }
-
-  // @UseGuards(AuthGuard('local'))
-//   @Post(':login')
-//   authUser(@Body() data: UserDto, @Param('login') login): Promise<User | boolean>{
-//     return this.userService.checkAuthUser(data.login, data.password).then((queryRes) => {
-//       if (queryRes?.length !== 0) {
-//         return Promise.resolve(true);
-//       } else {
-//         console.log('err - user is not exists')
-//         throw new HttpException({
-//           status: HttpStatus.CONFLICT,
-//           errorText: 'Пользователь не найден в базе данных'
-//         }, HttpStatus.CONFLICT);
-
-//       }
-//   })
-// }
-
-  // @UseGuards(AuthGuard('local'))
-  // @Post(':login')
-  // authUser(@Body() data: UserDocument, @Param('login') login): any {
-  //   return this.userService.login(data);
-  // }
 
   @Put(':id')
   updateUsers(@Param('id') id: string, @Body() data: any): Promise<User> {

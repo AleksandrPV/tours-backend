@@ -53,20 +53,20 @@ export class UsersService {
     return deletedUser;
   }
 
-  async checkRegUser(login): Promise<void> {
-    
+  async checkRegUser(login: string): Promise<User[]> {
+    return this.userModel.find({ login: login });
   }
 
   async checkAuthUser(login: string, password: string): Promise<User[] | null> {
-    const userArr = await this.userModel.find({ login, password });
-    return userArr.length === 0 ? null : userArr;
+    const usersArr = await this.userModel.find({ login, password });
+    return usersArr.length === 0 ? null : usersArr;
   }
 
   async login(user: UserDto) {
     const payload = { login: user.login, password: user.password};
     const userFromDb = await this.userModel.find({login: user.login});
     return {
-      id: userFromDb[0]._id,
+      id: userFromDb[0].id,
       access_token: this.jwtService.sign(payload),
     }
   }
