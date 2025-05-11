@@ -66,9 +66,9 @@ export class UsersService {
     const payload = { login: user.login, password: user.password};
     const userFromDb = await this.userModel.find({login: user.login});
     return {
-      id: userFromDb[0].id,
+      id: userFromDb[0]._id,
       access_token: this.jwtService.sign(payload),
     }
   }
-
+  
 }

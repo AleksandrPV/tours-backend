@@ -15,6 +15,8 @@ export class User implements IUser {
   @Prop() email: string;
   
   @Prop() id: string;
+
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

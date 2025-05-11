@@ -31,6 +31,7 @@ export class UsersController {
     return this.userService.getUserById(id);
   }
 
+  // @UseGuards(JwtAuthGuardService)
   @Post()
   sendUser(@Body() data: UserDto): Promise<User> {
     return this.userService.checkRegUser(data.login).then((queryRes: any) => {
@@ -46,7 +47,7 @@ export class UsersController {
       }
     });
   }
-  //@UseGuards(JwtAuthGuardService)
+  @UseGuards(AuthGuard('local'))
   @Post(':login')
     authUser(@Body() data: UserDto, @Param('login') login): any {
       return this.userService.login(data);

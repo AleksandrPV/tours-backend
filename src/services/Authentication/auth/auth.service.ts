@@ -12,7 +12,7 @@ export class AuthService extends PassportStrategy(Strategy) {
 
   async validate(login: string, password: string): Promise<any> {
     const user = await this.usersService.checkAuthUser(login, password);
-    console.log('user', user);
+    console.log('validate user', user);
     if (!user) {
       throw new HttpException({
         status: HttpStatus.CONFLICT,
@@ -22,5 +22,4 @@ export class AuthService extends PassportStrategy(Strategy) {
     return true;
   }
 
-  
 }

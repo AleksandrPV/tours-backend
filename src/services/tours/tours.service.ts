@@ -19,6 +19,7 @@ export class ToursService {
       const tourData = new this.tourModel(tour);
       tourData.save();
     }
+    console.log('tours are generated')
   }
 
   async deleteTours(): Promise<any> {
