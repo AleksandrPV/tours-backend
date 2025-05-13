@@ -9,7 +9,7 @@ export class OrderService {
 
   constructor(@InjectModel(Order.name) private orderModel: Model<OrderDocument>) {}
   
-  async createOrder(data: OrderDto): Promise<Order> {
+  async sendOrder(data: OrderDto): Promise<Order> {
     const orderData = new this.orderModel(data);
     return orderData.save();
 }

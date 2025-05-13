@@ -15,8 +15,9 @@ export class ToursService {
 
   generateTours(): void {
     for (let i = 0; i <= this.toursCount; i++) {
-      const tour = new TourDto('test'+i,'test desc', 'test operator', 'price'+i)
+      const tour = new TourDto('testi'+i,'test desc', 'test operator', 'price'+i)
       const tourData = new this.tourModel(tour);
+      console.log('tourData for i', i, ' = ', tourData);
       tourData.save();
     }
     console.log('tours are generated')
