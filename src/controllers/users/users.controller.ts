@@ -16,6 +16,7 @@ import { UsersService } from '../../services/users/users.service';
 import { User, UserDocument } from 'src/shemas/user';
 import { UserDto } from 'src/dto/userDto';
 import { JwtAuthGuardService } from 'src/services/authentication/jwt-auth.guard/jwt-auth.guard.service';
+import { UserAuthPipe } from 'src/pipes/user-auth.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -47,9 +48,10 @@ export class UsersController {
       }
     });
   }
+
   @UseGuards(AuthGuard('local'))
   @Post(':login')
-    authUser(@Body() data: UserDto, @Param('login') login): any {
+    authUser(@Body(UserAuthPipe) data: UserDto, @Param('login') login): any {
       return this.userService.login(data);
   }
 

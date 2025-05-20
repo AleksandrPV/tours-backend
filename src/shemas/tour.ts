@@ -11,7 +11,7 @@ export class Tour {
 
   @Prop() tourOperator: string;
 
-  @Prop() price: number;
+  @Prop() price: string;
 
   @Prop() img: string;
 

@@ -12,5 +12,9 @@ export class OrderService {
   async sendOrder(data: OrderDto): Promise<Order> {
     const orderData = new this.orderModel(data);
     return orderData.save();
-}
+  }
+
+  async getOrders() {
+
+  }
 }
