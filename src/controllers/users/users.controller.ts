@@ -17,6 +17,7 @@ import { User, UserDocument } from 'src/shemas/user';
 import { UserDto } from 'src/dto/userDto';
 import { JwtAuthGuardService } from 'src/services/authentication/jwt-auth.guard/jwt-auth.guard.service';
 import { UserAuthPipe } from 'src/pipes/user-auth.pipe';
+import { IUser } from 'src/interfaces/user';
 
 @Controller('users')
 export class UsersController {
@@ -34,7 +35,7 @@ export class UsersController {
 
   // @UseGuards(JwtAuthGuardService)
   @Post()
-  sendUser(@Body() data: UserDto): Promise<User> {
+  sendUser(@Body() data: UserDto): Promise<boolean> {
     return this.userService.checkRegUser(data.login).then((queryRes: any) => {
       console.log('data reg ', queryRes);
       if (queryRes?.length === 0) {
@@ -56,7 +57,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  updateUsers(@Param('id') id: string, @Body() data: any): Promise<User> {
+  updateUsers(@Param('id') id: string, @Body() data: any): Promise<IUser> {
     return this.userService.updateUsers(id, data);
   }
 
